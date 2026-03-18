@@ -92,6 +92,7 @@ def build_network(excel_file, use_lambda_temp=False):
             "down": down,
             "r": float(lines_df.loc[idx, "r_pu (pu)"]),
             "x": float(lines_df.loc[idx, "x_pu (pu)"]),
+            "b": float(lines_df.loc[idx, "b_pu (pu)"]) if "b_pu (pu)" in lines_df.columns else 0.0,
             "disc": disc,
             "breaker": breaker,
             "fault": False,
