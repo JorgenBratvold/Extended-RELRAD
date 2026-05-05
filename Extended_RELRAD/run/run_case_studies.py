@@ -1184,7 +1184,7 @@ if __name__ == "__main__":
     
     safe_name = re.sub(r"\s+", "_", selected_case_study.strip())
     fig.savefig(
-       f"RELRAD_with_constraints/case_studies_results/{safe_name}.pdf",
+       f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
        format="pdf",
        bbox_inches="tight",
        pad_inches=0.02
@@ -1203,7 +1203,7 @@ if __name__ == "__main__":
     #safe_name = "ENS_breakdown"
 #
     #fig.savefig(
-    #    f"RELRAD_with_constraints/case_studies_results/{safe_name}.pdf",
+    #    f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
     #    format="pdf",
     #    bbox_inches="tight",
     #    pad_inches=0.02
