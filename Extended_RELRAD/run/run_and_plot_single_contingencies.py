@@ -124,3 +124,4 @@ if __name__ == "__main__":
     # RBTS Bus 4 case B 
     from Extended_RELRAD.case_studies.RBTS_Bus_4_case_studies.Bus_4_Case_B import Bus_4_Case_B_system
     run_and_plot_contingency(Bus_4_Case_B_system, line_id=1, Vmin = None, cap_limit=1000, plot=True)
+    
