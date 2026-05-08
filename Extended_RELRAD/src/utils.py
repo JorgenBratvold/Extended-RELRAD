@@ -1,3 +1,13 @@
+'''
+Adapted from RELRAD-software by Sondre Modalsli Aaberg.
+Original copyright (C) 2025 Sondre Modalsli Aaberg.
+
+Modifications copyright (C) 2026 Jørgen Bratvold.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 
 def find_reachable_buses(slack_bus, buses, lines, faulted_buses=None):
     """

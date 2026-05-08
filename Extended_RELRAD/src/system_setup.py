@@ -1,5 +1,15 @@
 import pandas as pd
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 def build_network(excel_file, use_lambda_temp=False):
     """
     Builds the network data structure from the given Excel file.

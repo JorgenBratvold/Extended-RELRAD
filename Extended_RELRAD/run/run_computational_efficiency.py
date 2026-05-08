@@ -4,6 +4,16 @@ from statistics import mean, stdev
 
 from Extended_RELRAD.run.run_case_studies import run_case_study
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 def benchmark_case(system, cases, repeats=5, plot=False):
     times = []
     for _ in range(repeats):

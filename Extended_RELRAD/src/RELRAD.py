@@ -7,6 +7,16 @@ from Extended_RELRAD.src.protection_and_isolation import trip_upstream_protectio
 from Extended_RELRAD.src.optimization import branch_and_bound 
 from Extended_RELRAD.src.utils import find_reachable_buses, compute_switch_time 
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # Main RELRAD functions
 
 def run_single_contingency(

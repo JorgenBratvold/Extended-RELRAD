@@ -1,3 +1,13 @@
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # IEEE 123-bus system with single reserve connection case study (only for testing purposes)
 IEEE_123_Bus_system = {
     "path": "Extended_RELRAD/compatible_systems/IEEE_123Bus.xlsx",

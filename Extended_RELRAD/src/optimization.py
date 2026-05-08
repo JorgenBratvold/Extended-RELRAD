@@ -1,6 +1,16 @@
 from Extended_RELRAD.src.load_flow import lin_dist_flow
 from Extended_RELRAD.src.utils import find_reachable_buses
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 def branch_and_bound(
     network,
     slack_bus,

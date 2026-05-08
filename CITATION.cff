@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Extended RELRAD: Reliability Assessment with Secure Post-Fault Restoration"
+authors:
+  - family-names: "Bratvold"
+    given-names: "Jørgen"
+year: 2026
+type: software
+license: GPL-3.0-or-later
+repository-code: "https://github.com/JorgenBratvold/Extended-RELRAD"
+abstract: "Python implementation developed as part of a master's thesis at NTNU, extending RELRAD with operational constraints, secure post-fault restoration, and branch-and-bound optimization."

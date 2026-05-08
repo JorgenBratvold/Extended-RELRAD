@@ -11,6 +11,16 @@ from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_II_multiple_RC
 from Extended_RELRAD.case_studies.RBTS_Bus_2_case_studies.Bus_2_Case_A import Bus_2_Case_A_system
 from Extended_RELRAD.case_studies.RBTS_Bus_2_case_studies.Bus_2_Case_D import Bus_2_Case_D_system
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # Compare results from RELRAD 1.0 and RELRAD-software-new for the CINELDI system with three reserve connection with unlimited capacity
 
 system_ENS_CINELDI_old, load_point_df = rr.RELRAD(

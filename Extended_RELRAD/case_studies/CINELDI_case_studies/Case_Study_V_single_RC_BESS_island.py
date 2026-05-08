@@ -1,3 +1,13 @@
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # CINELDI system with islanded and grid-connected BESS case study
 Case_Study_V_system = {
     "path": "Extended_RELRAD/compatible_systems/CINELDI.xlsx",

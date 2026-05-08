@@ -1,5 +1,15 @@
 from Extended_RELRAD.run.run_and_plot_single_contingencies import run_and_plot_contingency
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 contingency_id = 3  # Same contingency for all examples in the thesis, but can be changed to test different contingencies
 
 Example_20_Bus_Test_system = {

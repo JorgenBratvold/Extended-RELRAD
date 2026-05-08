@@ -5,6 +5,16 @@ from Extended_RELRAD.src.utils import find_reachable_buses
 from Extended_RELRAD.src.plotting import plot_network
 from Extended_RELRAD.src.RELRAD import run_single_contingency
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # Single contingency analysis and visualization
 
 def run_and_plot_contingency(

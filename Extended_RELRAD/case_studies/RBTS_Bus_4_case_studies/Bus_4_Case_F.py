@@ -1,3 +1,13 @@
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 # RBTS Bus 4 case F system case study
 Bus_4_Case_F_system = {
     "path": "Extended_RELRAD/compatible_systems/RBTS_Bus_4/Bus_4_Case_F.xlsx",

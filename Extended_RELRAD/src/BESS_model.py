@@ -4,6 +4,16 @@ import copy
 from Extended_RELRAD.src.utils import find_reachable_buses, compute_switch_time
 from Extended_RELRAD.src.optimization import branch_and_bound
 
+'''
+Copyright (C) 2026 Jørgen Bratvold.
+
+Part of a GPLv3-licensed thesis implementation derived in part from
+RELRAD-software by Sondre Modalsli Aaberg.
+
+Licensed under the GNU General Public License v3.0 or later.
+See LICENSE for details.
+'''
+
 def get_available_bess_power(BESS_buses, ext_bus, repair_time):
     """
     Computes the available power from a BESS at a given bus, considering both the power capacity and the energy capacity over the repair time.
