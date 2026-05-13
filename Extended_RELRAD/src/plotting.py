@@ -298,44 +298,47 @@ def plot_case_study_results(
     """
     Plot the results of a case study with multiple scenarios.
 
-    args:
-        details: Dictionary with detailed results for each scenario, as returned by run_case_study.
-        network: The network data structure used in the case study, needed for load point information.
-        all_cases: List of case definitions, as provided to run_case_study.
-        sort_by: Scenario name used to rank load points in the plot. If None, the first scenario in scenarios is used.
-        same_load_point_order: If True, all scenarios will be plotted with load points in the same order, determined by the sort_by scenario. If False, each scenario will be plotted with load points sorted by their own ENS values.
-        figsize: Size of the figure to create.
-        top_n: If specified, only plot the top N load points by ENS in the sort_by scenario.
-        same_load_point_order: If True, all scenarios will be plotted with load points in the same order, determined by the sort_by scenario. If False, each scenario will be plotted with load points sorted by their own ENS values.
 
-    returns:
-        fig: The matplotlib figure object containing the plot.
+    Args:
+        details: Dictionary with detailed results for each scenario.
+        network: Network data structure used in the case study.
+        all_cases: List of case definitions.
+        sort_by: Scenario name used to rank load points.
+        figsize: Figure size.
+        top_n: If specified, only plot the top N load points by ENS in the
+               sort_by scenario before changed/unchanged grouping is applied.
+        same_load_point_order: If True, all subplots use the same LP order,
+               determined from the first reference scenario encountered.
+
+    Returns:
+        fig: The matplotlib figure object.
     """
 
     class HandlerBarLine(HandlerBase):
         """
-        Custom legend handler to show both a bar and a line in the same legend entry.
+        Custom legend handler to show both a bar and a line
+        in the same legend entry.
         """
 
         def create_artists(
-        self,
-        _legend,
-        orig_handle,
-        xdescent,
-        ydescent,
-        width,
-        height,
-        _fontsize,
-        trans,
-    ):
+            self,
+            _legend,
+            orig_handle,
+            xdescent,
+            ydescent,
+            width,
+            height,
+            _fontsize,
+            trans,
+        ):
             bar_handle, line_handle = orig_handle
 
             x0 = xdescent + 0.08 * width
             w = 0.84 * width
 
             bar_h = 0.26 * height
-            bar_y = ydescent + 0.35 * height
-            line_y = ydescent - 0.35 * height
+            bar_y = ydescent + 0.3 * height
+            line_y = ydescent -0.3 * height
 
             bar = Rectangle(
                 (x0, bar_y),
@@ -361,20 +364,17 @@ def plot_case_study_results(
 
             return [bar, line]
 
-
     BESS_SUFFIX_RE = re.compile(
-    r"-(?P<all>All)?BESS(?P<number>\d+)?(?P<mode>-(?:grid|island))?$"
+        r"-(?P<all>All)?BESS(?P<number>\d+)?(?P<mode>-(?:grid|island))?$"
     )
 
     def strip_bess_suffix(name):
         return BESS_SUFFIX_RE.sub("", name)
 
-
     def has_bess(name):
         return BESS_SUFFIX_RE.search(name) is not None
 
     def scenario_variant(name):
-
         match = BESS_SUFFIX_RE.search(name)
 
         if match is None:
@@ -390,92 +390,6 @@ def plot_case_study_results(
 
         return "bess_only"
 
-    def compute_symmetric_label_positions(endpoints, min_sep):
-        adjusted = [y for _, y, _ in endpoints]
-
-        if not adjusted:
-            return adjusted
-
-        center = 0.5 * (len(adjusted) - 1)
-
-        for i in range(len(adjusted)):
-            adjusted[i] += (i - center) * min_sep
-
-        for i in range(1, len(adjusted)):
-            if adjusted[i] < adjusted[i - 1] + 0.65 * min_sep:
-                adjusted[i] = adjusted[i - 1] + 0.65 * min_sep
-
-        return adjusted
-
-    def annotate_endpoints(
-        ax_cum,
-        endpoints,
-        x_last,
-        text_color,
-        x_text_offset=1.15,
-        min_sep_factor=0.1,
-        right_padding=3.8,
-        linestyle_getter=None,
-        reference_value=None,
-    ):
-        if not endpoints:
-            ax_cum.set_xlim(-0.5, 1.0)
-            return
-
-        endpoints = sorted(endpoints, key=lambda t: t[1])
-        yvals = [v for _, v, _ in endpoints]
-        ymax = max(yvals) if yvals else 1.0
-
-        min_sep = min(2.6, min_sep_factor * ymax) if ymax > 0 else 0.25
-        adjusted = compute_symmetric_label_positions(endpoints, min_sep)
-
-        x_text = x_last + x_text_offset
-
-        for sc, y_end, style_value in endpoints:
-            pass
-
-        for (sc, y_end, style_value), y_text in zip(endpoints, adjusted):
-            color, linestyle = linestyle_getter(sc, style_value)
-
-            ax_cum.scatter(
-                x_last,
-                y_end,
-                color=color,
-                s=34,
-                zorder=5,
-                edgecolor="black",
-                linewidth=0.4,
-            )
-
-            if reference_value is not None and reference_value != 0:
-                pct_change = 100 * (y_end - reference_value) / reference_value
-                label = f"{y_end:.2f} ({pct_change:+.1f}%)"
-            else:
-                label = f"{y_end:.2f}"
-
-            ax_cum.annotate(
-                label,
-                xy=(x_last, y_end),
-                xytext=(x_text, y_text),
-                textcoords="data",
-                va="center",
-                ha="left",
-                fontsize=12,
-                color=text_color,
-                arrowprops=dict(
-                    arrowstyle="-",
-                    color=color,
-                    lw=1.2,
-                    alpha=0.95,
-                    linestyle=linestyle,
-                    shrinkA=0,
-                    shrinkB=0,
-                    relpos=(0.0, 0.5),
-                ),
-            )
-
-        ax_cum.set_xlim(-0.5, x_last + right_padding)
-
     def style_legend(leg, fontsize=12):
         frame = leg.get_frame()
         frame.set_linewidth(1.2)
@@ -486,17 +400,18 @@ def plot_case_study_results(
         for txt in leg.get_texts():
             txt.set_color("black")
             txt.set_fontsize(fontsize)
+            txt.set_multialignment("left")
 
     scenario_names = list(details.keys())
     if not scenario_names:
-        raise ValueError("details er tom.")
+        raise ValueError("details is empty.")
 
     load_buses = sorted(
         b for b in network["buses"]
         if network["buses"][b]["P"] > 1e-9
     )
     if not load_buses:
-        raise ValueError("Fant ingen load buses i network.")
+        raise ValueError("No load buses found in network.")
 
     scenario_slack_buses = {
         sc["name"]: tuple(sc["slack_buses"])
@@ -506,12 +421,21 @@ def plot_case_study_results(
     missing = [sc for sc in scenario_names if sc not in scenario_slack_buses]
     if missing:
         raise KeyError(
-            f"Disse scenarioene finnes i details, men ikke i scenarios: {missing}"
+            f"These scenarios exist in details but not in all_cases: {missing}"
         )
 
     text_color = "black"
     grid_color = "#D9D9D9"
     spine_color = "black"
+    unchanged_bar_color = "#C9C9C9"
+    change_tol = 1e-9
+
+    changed_spacing = 1.0
+    unchanged_spacing = 0.35
+
+    # Fraction of available LP spacing used by bars.
+    # Lower value gives more space between neighboring LP groups.
+    lp_group_width = 0.78
 
     plt.rcParams.update({
         "figure.facecolor": "white",
@@ -593,12 +517,12 @@ def plot_case_study_results(
     ]
 
     no_bess_group_colors = [
-    "#4C78A8", 
-    "#F58518",
-    "#54A24B", 
-    "#E45756", 
-    "#B279A2", 
-]
+        "#4C78A8",
+        "#F58518",
+        "#54A24B",
+        "#E45756",
+        "#B279A2",
+    ]
 
     color_map_bess = {}
     color_map_no_bess = {}
@@ -640,7 +564,7 @@ def plot_case_study_results(
         else:
             ref_case = scenario_group[0]
 
-        ens_matrix = {
+        ens_matrix_full = {
             sc: np.array(
                 [details[sc]["ENS_per_bus"].get(b, 0.0) for b in load_buses],
                 dtype=float,
@@ -648,67 +572,120 @@ def plot_case_study_results(
             for sc in scenario_group
         }
 
+        group_stack_full = np.vstack([ens_matrix_full[sc] for sc in scenario_group])
+        change_metric_full = np.ptp(group_stack_full, axis=0)
+
         if same_load_point_order:
             if global_order is None:
-                global_order = np.argsort(ens_matrix[ref_case])[::-1]
+                global_order = np.argsort(ens_matrix_full[ref_case])[::-1]
 
                 if top_n is not None:
                     global_order = global_order[:top_n]
 
-            order = global_order
+            order = np.array(global_order, dtype=int)
 
         else:
-            order = np.argsort(ens_matrix[ref_case])[::-1]
+            order = np.argsort(ens_matrix_full[ref_case])[::-1]
 
             if top_n is not None:
                 order = order[:top_n]
 
+        changed_order = [i for i in order if change_metric_full[i] > change_tol]
+        unchanged_order = [i for i in order if change_metric_full[i] <= change_tol]
+        order = np.array(changed_order + unchanged_order, dtype=int)
+
         load_buses_sorted = [load_buses[i] for i in order]
         ens_matrix = {
             sc: vals[order]
-            for sc, vals in ens_matrix.items()
+            for sc, vals in ens_matrix_full.items()
         }
 
-        x = np.arange(len(load_buses_sorted))
+        total_ens = {
+            sc: float(np.sum(ens_matrix[sc]))
+            for sc in scenario_group
+        }
+
         is_bess_subplot = subgroup_name != "all_cases"
+
+        group_stack = np.vstack([ens_matrix[sc] for sc in scenario_group])
+        lp_changed = np.ptp(group_stack, axis=0) > change_tol
+        lp_unchanged = ~lp_changed
+
+        n_changed = int(lp_changed.sum())
+        n_unchanged = int(lp_unchanged.sum())
+
+        x = []
+        pos = 0.0
+
+        for changed in lp_changed:
+            x.append(pos)
+
+            if changed:
+                pos += changed_spacing
+            else:
+                pos += unchanged_spacing
+
+        x = np.array(x, dtype=float)
+
+        if n_unchanged > 0:
+            common_vals = group_stack[0, lp_unchanged]
+
+            ax.bar(
+                x[lp_unchanged],
+                common_vals,
+                width=lp_group_width * unchanged_spacing,
+                color=unchanged_bar_color,
+                alpha=0.95,
+                edgecolor="black",
+                linewidth=0.05,
+                zorder=1.5,
+            )
+
+        if n_changed > 0 and n_unchanged > 0:
+            ax.axvline(
+                x[n_changed] - 0.5 * unchanged_spacing,
+                color="#AFAFAF",
+                linestyle=":",
+                linewidth=1.2,
+                zorder=1,
+            )
 
         if is_bess_subplot:
             n_sc = len(scenario_group)
-            width = min(0.8 / max(n_sc, 1), 0.22)
+            width = min(lp_group_width / max(n_sc, 1), 0.25)
             base_color = color_map_bess[(rc_key, subgroup_name)]
 
             variant_styles = {
                 "no_bess": {
-                    "alpha": 0.35,
+                    "alpha": 0.45,
                     "hatch": None,
                     "edgecolor": base_color,
-                    "linewidth": 0.8,
+                    "linewidth": 1.0,
                     "linestyle": "--",
                 },
                 "bess_only": {
-                    "alpha": 0.65,
+                    "alpha": 0.78,
                     "hatch": "///",
                     "edgecolor": base_color,
-                    "linewidth": 0.8,
+                    "linewidth": 1.0,
                     "linestyle": "-",
                 },
                 "bess_grid": {
-                    "alpha": 0.65,
+                    "alpha": 0.78,
                     "hatch": "///",
                     "edgecolor": base_color,
-                    "linewidth": 0.8,
+                    "linewidth": 1.0,
                     "linestyle": "-.",
                 },
                 "bess_island": {
                     "alpha": 1.00,
                     "hatch": "///",
                     "edgecolor": base_color,
-                    "linewidth": 0.8,
+                    "linewidth": 1.0,
                     "linestyle": "-",
                 },
             }
 
-            endpoints = []
             legend_items = []
 
             for i, sc in enumerate(scenario_group):
@@ -716,17 +693,18 @@ def plot_case_study_results(
                 style = variant_styles[variant]
                 offset = (i - (n_sc - 1) / 2) * width
 
-                ax.bar(
-                    x + offset,
-                    ens_matrix[sc],
-                    width=width * 0.70,
-                    color=base_color,
-                    alpha=style["alpha"],
-                    hatch=style["hatch"],
-                    edgecolor=style["edgecolor"],
-                    linewidth=style["linewidth"],
-                    zorder=2,
-                )
+                if n_changed > 0:
+                    ax.bar(
+                        x[lp_changed] + offset,
+                        ens_matrix[sc][lp_changed],
+                        width=width * 0.86,
+                        color=base_color,
+                        alpha=style["alpha"],
+                        hatch=style["hatch"],
+                        edgecolor=style["edgecolor"],
+                        linewidth=style["linewidth"],
+                        zorder=3,
+                    )
 
                 y = np.cumsum(ens_matrix[sc])
 
@@ -735,13 +713,10 @@ def plot_case_study_results(
                     y,
                     color=base_color,
                     linestyle=style["linestyle"],
-                    linewidth=2.8,
+                    linewidth=1.8,
                     solid_capstyle="round",
-                    zorder=3,
+                    zorder=4,
                 )
-
-                if len(x) > 0:
-                    endpoints.append((sc, y[-1], variant))
 
                 bar_handle = Rectangle(
                     (0, 0),
@@ -751,7 +726,7 @@ def plot_case_study_results(
                     alpha=style["alpha"],
                     edgecolor=style["edgecolor"],
                     hatch=style["hatch"],
-                    linewidth=0.9,
+                    linewidth=1.0,
                 )
 
                 line_handle = Line2D(
@@ -759,55 +734,47 @@ def plot_case_study_results(
                     [0],
                     color=base_color,
                     linestyle=style["linestyle"],
-                    lw=2.8,
+                    lw=1.8,
                 )
 
                 legend_items.append((sc, (bar_handle, line_handle)))
-
-            if len(x) > 0:
-                reference_value = None
-                for sc_ref, y_ref, _ in endpoints:
-                    if sc_ref == ref_case:
-                        reference_value = y_ref
-                        break
-
-                annotate_endpoints(
-                    ax_cum=ax_cum,
-                    endpoints=endpoints,
-                    x_last=x[-1],
-                    text_color=text_color,
-                    x_text_offset=1.15,
-                    min_sep_factor=0.1,
-                    right_padding=max(4.0, 0.14 * len(x)),
-                    linestyle_getter=lambda sc, variant: (
-                        base_color,
-                        variant_styles[variant]["linestyle"],
-                    ),
-                    reference_value=reference_value,
-                )
-
-            ax.set_xlim(ax_cum.get_xlim())
 
             dedup = OrderedDict()
             for label, handle_pair in legend_items:
                 dedup[label] = handle_pair
 
-            legend_labels = list(dedup.keys())
-            legend_handles = list(dedup.values())
+            legend_handles = [
+                Rectangle(
+                    (0, 0),
+                    1,
+                    1,
+                    facecolor=unchanged_bar_color,
+                    edgecolor="black",
+                    linewidth=0.8,
+                    alpha=0.95,
+                )
+            ] + list(dedup.values())
+
+            legend_labels = [
+                "Unchanged LPs\nsame ENS"
+            ] + [
+                f"{sc}\n{total_ens[sc]:.2f} MWh/yr"
+                for sc in dedup.keys()
+            ]
 
             leg = ax.legend(
                 handles=legend_handles,
                 labels=legend_labels,
                 handler_map={tuple: HandlerBarLine()},
                 loc="upper left",
-                bbox_to_anchor=(0.0, 1.2),
-                ncols=min(len(legend_handles), 4),
+                bbox_to_anchor=(0.0, 1.27),
+                ncols=len(legend_handles),
                 borderaxespad=0.0,
                 handlelength=3.2,
-                handleheight=1.4,
-                columnspacing=1.5,
+                handleheight=2.0,
+                columnspacing=1.4,
                 handletextpad=0.8,
-                labelspacing=0.7,
+                labelspacing=0.9,
                 fontsize=12,
                 frameon=True,
                 facecolor="white",
@@ -819,23 +786,23 @@ def plot_case_study_results(
 
         else:
             n_sc = len(scenario_group)
-            width = min(0.8 / max(n_sc, 1), 0.22)
-
-            endpoints = []
+            width = min(lp_group_width / max(n_sc, 1), 0.25)
 
             for i, sc in enumerate(scenario_group):
                 color = color_map_no_bess[sc]
                 offset = (i - (n_sc - 1) / 2) * width
 
-                ax.bar(
-                    x + offset,
-                    ens_matrix[sc],
-                    width=width * 0.70,
-                    color=color,
-                    alpha=0.90,
-                    edgecolor="black",
-                    linewidth=0.45,
-                    zorder=2,)
+                if n_changed > 0:
+                    ax.bar(
+                        x[lp_changed] + offset,
+                        ens_matrix[sc][lp_changed],
+                        width=width * 0.86,
+                        color=color,
+                        alpha=0.98,
+                        edgecolor="black",
+                        linewidth=0.8,
+                        zorder=3,
+                    )
 
                 y = np.cumsum(ens_matrix[sc])
 
@@ -844,61 +811,51 @@ def plot_case_study_results(
                     y,
                     color=color,
                     linestyle="-",
-                    linewidth=3.0,
+                    linewidth=1.8,
                     solid_capstyle="round",
-                    zorder=3,
+                    zorder=4,
                 )
-
-                if len(x) > 0:
-                    endpoints.append((sc, y[-1], color))
-
-            if len(x) > 0:
-                reference_value = None
-                for sc_ref, y_ref, _ in endpoints:
-                    if sc_ref == ref_case:
-                        reference_value = y_ref
-                        break
-
-                annotate_endpoints(
-                    ax_cum=ax_cum,
-                    endpoints=endpoints,
-                    x_last=x[-1],
-                    text_color=text_color,
-                    x_text_offset=1.15,
-                    min_sep_factor=0.1,
-                    right_padding=max(4.0, 0.14 * len(x)),
-                    linestyle_getter=lambda sc, color: (
-                        color,
-                        "-",
-                    ),
-                    reference_value=reference_value,
-                )
-
-            ax.set_xlim(ax_cum.get_xlim())
 
             handles = [
+                Rectangle(
+                    (0, 0),
+                    1,
+                    1,
+                    facecolor=unchanged_bar_color,
+                    edgecolor="black",
+                    linewidth=0.8,
+                    alpha=0.95,
+                )
+            ] + [
                 Line2D(
                     [0],
                     [0],
                     color=color_map_no_bess[sc],
                     linestyle="-",
                     lw=3.2,
-                    label=sc,
                 )
+                for sc in scenario_group
+            ]
+
+            labels = [
+                "Unchanged LPs\nsame ENS"
+            ] + [
+                f"{sc}\n{total_ens[sc]:.2f} MWh/yr"
                 for sc in scenario_group
             ]
 
             leg = ax.legend(
                 handles=handles,
+                labels=labels,
                 loc="upper left",
-                bbox_to_anchor=(0.0, 1.2),
+                bbox_to_anchor=(0.0, 1.27),
                 ncols=len(handles),
                 borderaxespad=0.0,
                 handlelength=3.2,
-                handleheight=1.5,
-                columnspacing=1.5,
+                handleheight=2.0,
+                columnspacing=1.4,
                 handletextpad=0.8,
-                labelspacing=0.7,
+                labelspacing=0.9,
                 fontsize=12,
                 frameon=True,
                 facecolor="white",
@@ -942,9 +899,9 @@ def plot_case_study_results(
         ax.set_xticklabels(
             [f"{b + 1}" for b in load_buses_sorted],
             rotation=90,
-            color=text_color,
             fontsize=12,
         )
+
 
         ax.set_xlabel(
             "Load points",
@@ -974,14 +931,33 @@ def plot_case_study_results(
             width=1.0,
         )
 
+        for tick_label, changed in zip(ax.get_xticklabels(), lp_changed):
+            if changed:
+                tick_label.set_color("black")
+                #tick_label.set_fontweight("bold")
+                tick_label.set_fontsize(12)
+                #tick_label.set_fontstyle("normal")
+            else:
+                tick_label.set_color("#808080")
+                tick_label.set_fontweight("normal")
+                tick_label.set_fontsize(7)
+                #tick_label.set_fontstyle("italic")
+
+
         ax.yaxis.set_major_locator(MaxNLocator(nbins=8))
         ax_cum.yaxis.set_major_locator(MaxNLocator(nbins=8))
 
+        if len(x) > 0:
+            ax.set_xlim(-0.6, x[-1] + 0.6)
+
+
     plt.tight_layout(rect=[0.005, 0.005, 0.995, 0.995])
+    #fig.subplots_adjust(hspace=0.55)
 
     plt.show()
 
     return fig
+
 
 def plot_RBTS_case_studies(
     details,

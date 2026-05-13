@@ -491,14 +491,14 @@ if __name__ == "__main__":
     # (other case studes are included in the case_studies dictionary above for completeness and
     # potential future use, but only the ones listed below were actually used in the thesis)
 
-    selected_case_study = "RBTS Bus 2 case A"
+    #selected_case_study = "RBTS Bus 2 case A"
     #selected_case_study = "RBTS Bus 2 case D"
-    #selected_case_study = "Case Study I: CINELDI single RC"
+    selected_case_study = "Case Study I: CINELDI single RC"
     #selected_case_study = "Case Study II: CINELDI with multiple RCs"
     #selected_case_study = "Case Study III: CINELDI with single RC and BESS"
     #selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
     #selected_case_study = "Case Study V: CINELDI with single RC and BESS, islanding contribution"
-#
+
     details, fig = run_case_study(
        system=case_studies[selected_case_study]["system"],
        cases=case_studies[selected_case_study]["cases"],
@@ -512,8 +512,7 @@ if __name__ == "__main__":
        f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
        format="pdf",
        bbox_inches="tight",
-       pad_inches=0.02
-    )
+       pad_inches=0.02)
 
 
     ## ENS breakdown case study for CINELDI single RC cases
