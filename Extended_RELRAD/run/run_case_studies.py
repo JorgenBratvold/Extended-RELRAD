@@ -491,46 +491,47 @@ if __name__ == "__main__":
     # (other case studes are included in the case_studies dictionary above for completeness and
     # potential future use, but only the ones listed below were actually used in the thesis)
 
-    selected_case_study = "RBTS Bus 2 case A"
+    #selected_case_study = "RBTS Bus 2 case A"
     #selected_case_study = "RBTS Bus 2 case D"
     #selected_case_study = "Case Study I: CINELDI single RC"
     #selected_case_study = "Case Study II: CINELDI with multiple RCs"
     #selected_case_study = "Case Study III: CINELDI with single RC and BESS"
     #selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
     #selected_case_study = "Case Study V: CINELDI with single RC and BESS, islanding contribution"
+#
+    #details, fig = run_case_study(
+    #   system=case_studies[selected_case_study]["system"],
+    #   cases=case_studies[selected_case_study]["cases"],
+    #   plot=True,
+    #   sort_by=None,
+    #   same_load_point_order=True)
+    #
+    #safe_name = re.sub(r"\s+", "_", selected_case_study.strip())
+    ##fig.set_size_inches(14, 3.6)  # bredde, høyde i inches
+    #fig.savefig(
+    #   f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
+    #   format="pdf",
+    #   bbox_inches="tight",
+    #   pad_inches=0.02
+    #)
 
-    details, fig = run_case_study(
-       system=case_studies[selected_case_study]["system"],
-       cases=case_studies[selected_case_study]["cases"],
-       plot=True,
-       sort_by=None,
-       same_load_point_order=True)
-    
-    safe_name = re.sub(r"\s+", "_", selected_case_study.strip())
-    fig.savefig(
-       f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
-       format="pdf",
-       bbox_inches="tight",
-       pad_inches=0.02
+
+    # ENS breakdown case study for CINELDI single RC cases
+    selected_breakdown_case_study = "Case Study I: CINELDI single RC"
+    details, fig = run_ENS_breakdown_case_study(
+        system=case_studies[selected_breakdown_case_study]["system"],
+        cases=case_studies[selected_breakdown_case_study]["cases"],
+        case_names=["Base-RC62", "V095-Cap2-RC62"], sort_by="Base-RC62", plot=True,
+        top_n=None,
     )
 
+    safe_name = "ENS_breakdown"
 
-    ## ENS breakdown case study for CINELDI single RC cases
-    #selected_breakdown_case_study = "Case Study I: CINELDI single RC"
-    #details, fig = run_ENS_breakdown_case_study(
-    #    system=case_studies[selected_breakdown_case_study]["system"],
-    #    cases=case_studies[selected_breakdown_case_study]["cases"],
-    #    case_names=["Base-RC62", "V095-Cap2-RC62"], sort_by="Base-RC62", plot=True,
-    #    top_n=None,
-    #)
-#
-    #safe_name = "ENS_breakdown"
-#
-    #fig.savefig(
-    #    f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
-    #    format="pdf",
-    #    bbox_inches="tight",
-    #    pad_inches=0.02
-    #)
+    fig.savefig(
+        f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
+        format="pdf",
+        bbox_inches="tight",
+        pad_inches=0.02
+    )
 
 

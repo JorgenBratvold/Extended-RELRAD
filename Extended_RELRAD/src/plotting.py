@@ -360,20 +360,34 @@ def plot_case_study_results(
             )
 
             return [bar, line]
-        
+
+
+    BESS_SUFFIX_RE = re.compile(
+    r"-(?P<all>All)?BESS(?P<number>\d+)?(?P<mode>-(?:grid|island))?$"
+    )
+
     def strip_bess_suffix(name):
-        return re.sub(r"-BESS(?:\d+)?(?:-(?:grid|island))?$", "", name)
+        return BESS_SUFFIX_RE.sub("", name)
+
 
     def has_bess(name):
-        return "-BESS" in name
+        return BESS_SUFFIX_RE.search(name) is not None
 
     def scenario_variant(name):
-        if not has_bess(name):
+
+        match = BESS_SUFFIX_RE.search(name)
+
+        if match is None:
             return "no_bess"
-        if name.endswith("-BESS-grid"):
+
+        mode = match.group("mode")
+
+        if mode == "-grid":
             return "bess_grid"
-        if name.endswith("-BESS-island"):
+
+        if mode == "-island":
             return "bess_island"
+
         return "bess_only"
 
     def compute_symmetric_label_positions(endpoints, min_sep):

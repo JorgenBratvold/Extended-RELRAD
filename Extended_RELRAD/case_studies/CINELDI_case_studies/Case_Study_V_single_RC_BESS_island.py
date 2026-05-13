@@ -32,14 +32,14 @@ BESS_all = {
 # CINELDI single-RC BESS cases with and without BESS islanding contribution
 
 Case_Study_V_cases = [
-    # name                              slack_buses  Vmin [p.u.]     cap_limit [p.u.]  BESS units    allow_bess_islanding
-    ("V095-Cap1-RC62",                  [1, 62],     0.95,           0.1,              {},           True),
-    ("V095-Cap2-RC62",                  [1, 62],     0.95,           0.2,              {},           True),
-    ("V095-Cap3-RC62",                  [1, 62],     0.95,           0.3,              {},           True),
-    ("V095-Cap1-RC62-BESS-island",      [1, 62],     0.95,           0.1,              BESS_all,     True),
-    ("V095-Cap2-RC62-BESS-island",      [1, 62],     0.95,           0.2,              BESS_all,     True),
-    ("V095-Cap3-RC62-BESS-island",      [1, 62],     0.95,           0.3,              BESS_all,     True),
-    ("V095-Cap1-RC62-BESS-grid",        [1, 62],     0.95,           0.1,              BESS_all,     False),
-    ("V095-Cap2-RC62-BESS-grid",        [1, 62],     0.95,           0.2,              BESS_all,     False),
-    ("V095-Cap3-RC62-BESS-grid",        [1, 62],     0.95,           0.3,              BESS_all,     False),
+    # name                                 slack_buses  Vmin [p.u.]     cap_limit [p.u.]  BESS units    allow_bess_islanding
+    ("V095-Cap1-RC62",                     [1, 62],     0.95,           0.1,              {},           True),
+    ("V095-Cap2-RC62",                     [1, 62],     0.95,           0.2,              {},           True),
+    ("V095-Cap3-RC62",                     [1, 62],     0.95,           0.3,              {},           True),
+    ("V095-Cap1-RC62-AllBESS-island",      [1, 62],     0.95,           0.1,              BESS_all,     True),
+    ("V095-Cap2-RC62-AllBESS-island",      [1, 62],     0.95,           0.2,              BESS_all,     True),
+    ("V095-Cap3-RC62-AllBESS-island",      [1, 62],     0.95,           0.3,              BESS_all,     True),
+    ("V095-Cap1-RC62-AllBESS-grid",        [1, 62],     0.95,           0.1,              BESS_all,     False),
+    ("V095-Cap2-RC62-AllBESS-grid",        [1, 62],     0.95,           0.2,              BESS_all,     False),
+    ("V095-Cap3-RC62-AllBESS-grid",        [1, 62],     0.95,           0.3,              BESS_all,     False),
 ]
