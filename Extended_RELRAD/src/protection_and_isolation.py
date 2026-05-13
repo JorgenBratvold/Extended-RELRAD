@@ -179,9 +179,10 @@ def isolate_and_find_faulted_buses(faulted_line_id, lines, buses):
 
     return faulted_buses
 
-def reclose_unused_protection(protection_line_id, lines, faulted_buses):
+def identify_unused_protection(protection_line_id, lines, faulted_buses):
+    
     """
-    Recloses the protection device on the given line if it was tripped but
+    Identifies the protection device on the given line if it was tripped but
     is not needed for isolation anymore.
 
     args:

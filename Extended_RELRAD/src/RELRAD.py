@@ -3,7 +3,7 @@ import copy
 
 from Extended_RELRAD.src.BESS_model import get_available_bess_power, apply_bess_islanding, apply_bess_injection
 from Extended_RELRAD.src.load_flow import lin_dist_flow 
-from Extended_RELRAD.src.protection_and_isolation import trip_upstream_protection, find_affected_buses, isolate_and_find_faulted_buses, reclose_unused_protection
+from Extended_RELRAD.src.protection_and_isolation import trip_upstream_protection, find_affected_buses, isolate_and_find_faulted_buses, identify_unused_protection
 from Extended_RELRAD.src.optimization import branch_and_bound 
 from Extended_RELRAD.src.utils import find_reachable_buses, compute_switch_time 
 
@@ -81,7 +81,7 @@ def run_single_contingency(
     protection_id = trip_upstream_protection(line_id, line_copy, network["upstream_lookup"])
     affected_buses = find_affected_buses(protection_id, line_copy, buses)
     faulted_buses = isolate_and_find_faulted_buses(line_id, line_copy, buses)
-    reclose_unused_protection(protection_id, line_copy, faulted_buses)
+    identify_unused_protection(protection_id, line_copy, faulted_buses)
 
     total_energized_buses = set()
     total_shedded_buses = set()
