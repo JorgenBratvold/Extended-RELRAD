@@ -29,12 +29,12 @@ BESS_all = {
 
 # CINELDI multi-RC BESS cases
 Case_Study_IV_cases = [
-    # name                 slack_buses          Vmin [p.u.]     cap_limit [p.u.]  BESS units    allow_bess_islanding
-    ("V095-Cap1-AllRC",      [1, 36, 62, 88],     0.95,           0.1,              {},           False),
-    ("V095-Cap2-AllRC",      [1, 36, 62, 88],     0.95,           0.2,              {},           False),
-    ("V095-Cap3-AllRC",      [1, 36, 62, 88],     0.95,           0.3,              {},           False),
-    ("V095-Cap1-AllRC-AllBESS", [1, 36, 62, 88],     0.95,           0.1,              BESS_all,     False),
-    ("V095-Cap2-AllRC-AllBESS", [1, 36, 62, 88],     0.95,           0.2,              BESS_all,     False),
-    ("V095-Cap3-AllRC-AllBESS", [1, 36, 62, 88],     0.95,           0.3,              BESS_all,     False),
+    # name                             slack_buses          Vmin [p.u.]     cap_limit [p.u.]  BESS units    allow_bess_islanding
+    ("V095-Cap1-AllRC",                [1, 36, 62, 88],     0.95,           0.1,              {},           False),
+    ("V095-Cap2-AllRC",                [1, 36, 62, 88],     0.95,           0.2,              {},           False),
+    ("V095-Cap3-AllRC",                [1, 36, 62, 88],     0.95,           0.3,              {},           False),
+    ("V095-Cap1-AllRC-AllBESS-grid",   [1, 36, 62, 88],     0.95,           0.1,              BESS_all,     False),
+    ("V095-Cap2-AllRC-AllBESS-grid",   [1, 36, 62, 88],     0.95,           0.2,              BESS_all,     False),
+    ("V095-Cap3-AllRC-AllBESS-grid",   [1, 36, 62, 88],     0.95,           0.3,              BESS_all,     False),
 ]
 

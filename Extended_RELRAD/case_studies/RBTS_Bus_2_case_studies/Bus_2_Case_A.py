@@ -21,10 +21,10 @@ Bus_2_Case_A_system = {
 
 # RBTS Bus 2 – case A
 Bus_2_Case_A_cases = [
-    # name         slack_buses            Vmin [p.u.]     cap_limit [p.u.]  bess_buses    enable_bess_islanding
-    ("Base-A",     [23, 28, 30, 34, 38],  None,           None,             {},           False),
-    ("Cap2.5-A",   [23, 28, 30, 34, 38],  None,           0.25,             {},           False),
-    ("Cap2.0-A",   [23, 28, 30, 34, 38],  None,           0.20,             {},           False),
-    ("Cap1.5-A",   [23, 28, 30, 34, 38],  None,           0.15,             {},           False),
-    ("Cap1.0-A",   [23, 28, 30, 34, 38],  None,           0.10,             {},           False),
+    # name         slack_buses             Vmin [p.u.]     cap_limit [p.u.]  bess_buses    enable_bess_islanding
+    ("Base-A",     [23, 28, 30, 34, 38],   None,           None,             {},           False),
+    ("Cap2.5-A",   [23, 28, 30, 34, 38],   None,           0.25,             {},           False),
+    ("Cap2.0-A",   [23, 28, 30, 34, 38],   None,           0.20,             {},           False),
+    ("Cap1.5-A",   [23, 28, 30, 34, 38],   None,           0.15,             {},           False),
+    ("Cap1.0-A",   [23, 28, 30, 34, 38],   None,           0.10,             {},           False),
 ]

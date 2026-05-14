@@ -29,6 +29,7 @@ This repository is distributed under the GNU General Public License v3.0 or late
 │   ├── case_studies/                        # Case study definitions
 │   ├── case_studies_results/                # Pre-computed results and plots
 │   ├── compatible_systems/                  # System input data
+|   ├── contingency_plots/                   # Pre-computed contingency plots
 │   ├── run/                                 # Scripts for analyses and comparisons
 │   │   ├── compare_LF_solvers.py
 │   │   ├── compare_with_RELRAD_software.py

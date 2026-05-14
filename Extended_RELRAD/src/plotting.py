@@ -286,6 +286,8 @@ def plot_network(
     if show:
         plt.show()
 
+        return fig, ax
+
 def plot_case_study_results(
     details,
     network,

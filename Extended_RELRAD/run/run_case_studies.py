@@ -493,10 +493,10 @@ if __name__ == "__main__":
 
     #selected_case_study = "RBTS Bus 2 case A"
     #selected_case_study = "RBTS Bus 2 case D"
-    selected_case_study = "Case Study I: CINELDI single RC"
+    #selected_case_study = "Case Study I: CINELDI single RC"
     #selected_case_study = "Case Study II: CINELDI with multiple RCs"
     #selected_case_study = "Case Study III: CINELDI with single RC and BESS"
-    #selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
+    selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
     #selected_case_study = "Case Study V: CINELDI with single RC and BESS, islanding contribution"
 
     details, fig = run_case_study(
