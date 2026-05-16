@@ -31,6 +31,7 @@ This repository is distributed under the GNU General Public License v3.0 or late
 │   ├── compatible_systems/                  # System input data
 |   ├── contingency_plots/                   # Pre-computed contingency plots
 │   ├── run/                                 # Scripts for analyses and comparisons
+|   |   ├── compare_choice_of_objective.py
 │   │   ├── compare_LF_solvers.py
 │   │   ├── compare_with_RELRAD_software.py
 │   │   ├── run_20_Bus_Test_Examples.py
@@ -88,12 +89,13 @@ Run the main thesis case studies with:
 python Extended_RELRAD/run/run_case_studies.py
 ```
 
-Additional scripts in `Extended_RELRAD/run/` are provided for solver comparisons, original RELRAD comparisons, contingency visualization, computational efficiency analysis, and 20-bus test examples.
+Additional scripts in `Extended_RELRAD/run/` are provided for solver comparisons, objective function sensitivity analysis, original RELRAD comparisons, contingency visualization, computational efficiency analysis, and 20-bus test examples.
 
 Generated results and plots are saved in:
 
 ```text
 Extended_RELRAD/case_studies_results/
+Extended_RELRAD/contingency_plots/
 ```
 
 ## Notes and limitations
