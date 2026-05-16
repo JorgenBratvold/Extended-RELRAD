@@ -29,7 +29,8 @@ def run_single_contingency(
     V_pre_mapping,
     BESS_buses=None,
     build_results=False,
-    enable_bess_islanding=False):
+    enable_bess_islanding=False,
+    objective="load_shed"):
     """
     Runs a single contingency defined by a fault on a specific line. The function performs the following steps:
     1. Simulates the fault on the specified line and identifies the affected buses.
@@ -53,6 +54,7 @@ def run_single_contingency(
         BESS_buses: Optional dictionary of BESS bus IDs and their parameters for injection and islanding.
         build_results: Whether to build a detailed contingency result for plotting (default: False)
         enable_bess_islanding: Whether to enable BESS islanding in the restoration process (default: False)
+        objective: The objective function to optimize in the branch-and-bound ("load_shed" or "cost", default: "load_shed")
 
     returns: 
         ENS_contingency: A dictionary mapping each bus ID to its ENS contribution for this contingency.
@@ -115,7 +117,8 @@ def run_single_contingency(
             Vmin=Vmin,
             Vpre=V_pre_mapping.get(slack_bus, 1.0),
             capacity=P_cap,
-            faulted_buses=faulted_buses)
+            faulted_buses=faulted_buses,
+            objective=objective)
 
         total_energized_buses |= set(energized_buses)
         total_shedded_buses |= set(shedded_buses)
@@ -146,7 +149,8 @@ def run_single_contingency(
             edge_lookup=edge_lookup,
             repair_time=repair_time,
             Vmin=Vmin,
-            V_pre_mapping=V_pre_mapping)
+            V_pre_mapping=V_pre_mapping,
+            objective=objective)
 
     isolated_buses = (
         set(affected_buses)
@@ -301,7 +305,8 @@ def run_RELRAD(network,
                Sbase, 
                cap_limit, 
                BESS_buses=None, 
-               enable_bess_islanding=False):
+               enable_bess_islanding=False,
+               objective="load_shed"):
     """
     Runs the RELRAD analysis for all single line contingencies in the network. 
     For each line contingency, it calls the run_single_contingency function to simulate the fault, 
@@ -315,7 +320,8 @@ def run_RELRAD(network,
         cap_limit: Capacity limit of reserve connections.
         BESS_buses: Optional dictionary of BESS bus IDs and their parameters for injection and islanding.
         enable_bess_islanding: Flag to enable/disable BESS islanding functionality.
-    
+        objective: The objective function to optimize in the branch-and-bound ("load_shed" or "cost", default: "load_shed")
+
     returns:
         ENS_total_LP: A dictionary mapping each bus ID to its total ENS contribution across all contingencies.
         ENS_breakdown_total: A dictionary with breakdown of total ENS contributions by category (fault, isolated, switching, shed) for each bus across all contingencies.
@@ -350,7 +356,8 @@ def run_RELRAD(network,
             V_pre_mapping=V_pre_mapping, 
             BESS_buses=BESS_buses,
             build_results=False,
-            enable_bess_islanding=enable_bess_islanding)
+            enable_bess_islanding=enable_bess_islanding,
+            objective=objective)
 
     
         for bus, ENS_bus in ENS_contingency.items():

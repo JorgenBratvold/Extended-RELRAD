@@ -37,6 +37,7 @@ def run_RBTS_case_studies(
     same_load_point_order=True,
     figsize=(16, 8),
     top_n=None,
+    objective="load_shed"
 ):
     """
     Run base cases A to F for the given systems and cases.
@@ -75,6 +76,7 @@ def run_RBTS_case_studies(
             cases=[base_case],
             use_lambda_temp=use_lambda_temp,
             plot=False,
+            objective=objective,
         )
 
         scenario_name = base_case[0]
@@ -138,6 +140,8 @@ if __name__ == "__main__":
         sort_by="Base-A",
         same_load_point_order=True,
         figsize=(17, 8),
+        top_n=None,
+        objective="load_shed"
     )
 
     safe_name = "RBTS_Bus_2_Base_A_to_F"
@@ -177,6 +181,8 @@ if __name__ == "__main__":
         sort_by="Base-A",
         same_load_point_order=True,
         figsize=(17, 8),
+        top_n=None,
+        objective="load_shed"
     )
 
     safe_name = "RBTS_Bus_4_Base_A_to_F"

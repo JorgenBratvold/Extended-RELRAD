@@ -80,7 +80,8 @@ def apply_bess_islanding(
     edge_lookup,
     repair_time,
     Vmin,
-    V_pre_mapping):
+    V_pre_mapping,
+    objective):
     """
     Applies the BESS islanding by selecting candidate BESS buses as slack buses,
     computing the reachable buses, and performing branch and bound to determine the energized and shedded buses.
@@ -155,7 +156,8 @@ def apply_bess_islanding(
             Vmin=Vmin,
             Vpre=V_pre_mapping.get(slack_bus_BESS, 1.0),
             capacity=P_cap,
-            faulted_buses=faulted_buses)
+            faulted_buses=faulted_buses,
+            objective=objective)
 
         total_energized_buses |= set(energized_buses)
         total_shedded_buses |= set(shedded_buses)

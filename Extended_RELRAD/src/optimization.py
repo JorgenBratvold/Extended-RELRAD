@@ -21,6 +21,7 @@ def branch_and_bound(
     Vpre=None,
     capacity=None,
     faulted_buses=None,
+    objective="load_shed",
 ):
     """
     Performs a branch-and-bound algorithm to find the optimal set of switch operations that 
@@ -36,7 +37,8 @@ def branch_and_bound(
         Vpre: A mapping of bus IDs to their pre-fault voltage magnitudes (optional).
         capacity: Capacity limit for the optimization (optional).
         faulted_buses: An optional set of bus IDs that are considered faulted and should not be energized. must be included to handle cases with fault on the same line a CB.
-    
+        objective: The objective function to optimize ("load_shed" or "cost").
+
     returns:
         energized_buses: A set of bus IDs that are energized after applying the optimal switching actions.
         shed_nodes: A set of bus IDs that are shed (not energized) after applying the optimal switching actions.
@@ -125,9 +127,16 @@ def branch_and_bound(
 
                 T = subtree(bus)
 
-                Pc = sum(
-                    buses[m]["P_load"] * buses[m].get("c4", 1) * network.get("Sbase", 1) * 1000 # P_load is in p.u. and c4 is in nok/kWh, this converts to nok/h
-                    for m in T)
+                if objective == "load_shed":
+                    Pc = sum(
+                        buses[m]["P"] * network.get("Sbase", 1)
+                        for m in T)
+                elif objective == "cost":
+                    Pc = sum(
+                        buses[m]["P_load"] * buses[m].get("c4", 1) * network.get("Sbase", 1) * 1000 # P_load is in p.u. and c4 is in nok/kWh, this converts to nok/h
+                        for m in T)
+                else:
+                    raise ValueError(f"Unsupported objective: {objective}")
 
                 line = lines[line_id]
 

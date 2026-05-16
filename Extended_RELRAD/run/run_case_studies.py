@@ -53,6 +53,7 @@ def run_case_study(
     plot=False,
     sort_by=None,
     same_load_point_order=True,
+    objective="load_shed",
 ):
     """
     Run a case study with multiple scenarios and optionally plot the results.
@@ -118,6 +119,7 @@ def run_case_study(
             cap_limit=sc["cap_limit"],
             BESS_buses=sc.get("BESS_buses", {}),
             enable_bess_islanding=sc.get("enable_bess_islanding", False),
+            objective=objective,
         )
 
         details[name] = {
@@ -137,6 +139,7 @@ def run_case_study(
                 "cap_limit": sc["cap_limit"],
                 "BESS_buses": copy.deepcopy(sc.get("BESS_buses", {})),
                 "enable_bess_islanding": sc.get("enable_bess_islanding", False),
+                "objective": objective,
             },
         }
 
@@ -167,6 +170,7 @@ def run_ENS_breakdown_case_study(
     top_n=20,
     plot=True,
     case_names=None,
+    objective="load_shed",
 ):
     network = build_network(system["path"], use_lambda_temp=use_lambda_temp)
     Sbase = system["Sbase"]
@@ -206,6 +210,7 @@ def run_ENS_breakdown_case_study(
             cap_limit=sc["cap_limit"],
             BESS_buses=sc.get("BESS_buses", {}),
             enable_bess_islanding=sc.get("enable_bess_islanding", False),
+            objective=objective,
         )
 
         df = pd.DataFrame({
@@ -226,6 +231,7 @@ def run_ENS_breakdown_case_study(
                 "slack_buses": sc["slack_buses"],
                 "Vmin": sc["Vmin"],
                 "cap_limit": sc["cap_limit"],
+                "objective": objective,
             },
             "ENS_per_bus": copy.deepcopy(ENS),
             "ENS_breakdown_per_bus": copy.deepcopy(breakdown),
@@ -414,26 +420,32 @@ if __name__ == "__main__":
         "RBTS Bus 2 case A": {
             "system": Bus_2_Case_A_system,
             "cases": Bus_2_Case_A_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 2 case B": {
             "system": Bus_2_Case_B_system,
             "cases": Bus_2_Case_B_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 2 case C": {
             "system": Bus_2_Case_C_system,
             "cases": Bus_2_Case_C_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 2 case D": {
             "system": Bus_2_Case_D_system,
             "cases": Bus_2_Case_D_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 2 case E": {
             "system": Bus_2_Case_E_system,
             "cases": Bus_2_Case_E_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 2 case F": {
             "system": Bus_2_Case_F_system,
             "cases": Bus_2_Case_F_cases,
+            "objective": "load_shed",
         },
 
 
@@ -441,22 +453,27 @@ if __name__ == "__main__":
         "Case Study I: CINELDI single RC": {
             "system": Case_Study_I_system,
             "cases": Case_Study_I_cases,
+            "objective": "cost",
         },
         "Case Study II: CINELDI with multiple RCs": {
             "system": Case_Study_II_system,
             "cases": Case_Study_II_cases,
+            "objective": "cost",
         },
         "Case Study III: CINELDI with single RC and BESS": {
             "system": Case_Study_III_system,
             "cases": Case_Study_III_cases,
+            "objective": "cost",
         },
         "Case Study IV: CINELDI with multiple RCs and BESS": {
             "system": Case_Study_IV_system,
             "cases": Case_Study_IV_cases,
+            "objective": "cost",
         },
         "Case Study V: CINELDI with single RC and BESS, islanding contribution": {
             "system": Case_Study_V_system,
             "cases": Case_Study_V_cases,
+            "objective": "cost",
         },
 
 
@@ -464,26 +481,32 @@ if __name__ == "__main__":
         "RBTS Bus 4 case A": {
             "system": Bus_4_Case_A_system,
             "cases": Bus_4_Case_A_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 4 case B": {
             "system": Bus_4_Case_B_system,
             "cases": Bus_4_Case_B_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 4 case C": {
             "system": Bus_4_Case_C_system,
             "cases": Bus_4_Case_C_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 4 case D": {
             "system": Bus_4_Case_D_system,
             "cases": Bus_4_Case_D_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 4 case E": {
             "system": Bus_4_Case_E_system,
             "cases": Bus_4_Case_E_cases,
+            "objective": "load_shed",
         },
         "RBTS Bus 4 case F": {
             "system": Bus_4_Case_F_system,
             "cases": Bus_4_Case_F_cases,
+            "objective": "load_shed",
         },
     }
 
@@ -496,41 +519,48 @@ if __name__ == "__main__":
     #selected_case_study = "Case Study I: CINELDI single RC"
     #selected_case_study = "Case Study II: CINELDI with multiple RCs"
     #selected_case_study = "Case Study III: CINELDI with single RC and BESS"
-    selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
+    #selected_case_study = "Case Study IV: CINELDI with multiple RCs and BESS"
     #selected_case_study = "Case Study V: CINELDI with single RC and BESS, islanding contribution"
 
-    details, fig = run_case_study(
-       system=case_studies[selected_case_study]["system"],
-       cases=case_studies[selected_case_study]["cases"],
-       plot=True,
-       sort_by=None,
-       same_load_point_order=True)
-    
-    safe_name = re.sub(r"\s+", "_", selected_case_study.strip())
-    fig.set_size_inches(14, 9)  # bredde, høyde i inches
-    fig.savefig(
-       f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
-       format="pdf",
-       bbox_inches="tight",
-       pad_inches=0.02)
-
-
-    ## ENS breakdown case study for CINELDI single RC cases
-    #selected_breakdown_case_study = "Case Study I: CINELDI single RC"
-    #details, fig = run_ENS_breakdown_case_study(
-    #    system=case_studies[selected_breakdown_case_study]["system"],
-    #    cases=case_studies[selected_breakdown_case_study]["cases"],
-    #    case_names=["Base-RC62", "V095-Cap2-RC62"], sort_by="Base-RC62", plot=True,
-    #    top_n=None,
+    #details, fig = run_case_study(
+    #   system=case_studies[selected_case_study]["system"],
+    #   cases=case_studies[selected_case_study]["cases"],
+    #   plot=True,
+    #   sort_by=None,
+    #   same_load_point_order=True,
+    #   objective=case_studies[selected_case_study]["objective"],
     #)
-#
-    #safe_name = "ENS_breakdown"
-#
+    #
+    #safe_name = re.sub(r"\s+", "_", selected_case_study.strip())
+    #fig.set_size_inches(14, 9)  # bredde, høyde i inches
     #fig.savefig(
-    #    f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
-    #    format="pdf",
-    #    bbox_inches="tight",
-    #    pad_inches=0.02
-    #)
+    #   f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
+    #   format="pdf",
+    #   bbox_inches="tight",
+    #   pad_inches=0.02)
+
+
+    # ENS breakdown case study for CINELDI single RC cases
+    selected_breakdown_case_study = "Case Study I: CINELDI single RC"
+    details, fig = run_ENS_breakdown_case_study(
+        system=case_studies[selected_breakdown_case_study]["system"],
+        cases=case_studies[selected_breakdown_case_study]["cases"],
+        case_names=["Base-RC62", "V095-Cap2-RC62"], sort_by="Base-RC62", plot=True,
+        top_n=None,
+        objective=case_studies[selected_breakdown_case_study]["objective"],
+    )
+    # print table with total ENS for each case and breakdown
+    for case_name, data in details.items():
+        totals = data["totals"]
+        print(f"{case_name}: Total ENS = {totals['total']:.3f} MWh/year (Fault: {totals['fault']:.3f}, Isolated: {totals['isolated']:.3f}, Switching: {totals['switching']:.3f}, Shed: {totals['shed']:.3f})")
+
+    safe_name = "ENS_breakdown"
+
+    fig.savefig(
+        f"Extended_RELRAD/case_studies_results/{safe_name}.pdf",
+        format="pdf",
+        bbox_inches="tight",
+        pad_inches=0.02
+    )
 
 

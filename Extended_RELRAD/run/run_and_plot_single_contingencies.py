@@ -26,6 +26,7 @@ def run_and_plot_contingency(
     use_lambda_temp=False,
     plot=True,
     enable_bess_islanding=False,
+    objective="load_shed"
 ):
     """
     Run a single contingency analysis and plot the results.
@@ -71,6 +72,7 @@ def run_and_plot_contingency(
         BESS_buses=BESS_buses or {},
         build_results=True,
         enable_bess_islanding=enable_bess_islanding,
+        objective=objective
     )
 
     if plot and contingency_result is not None:
@@ -98,60 +100,71 @@ if __name__ == "__main__":
 
     contingency_id = 2  # Contingency on line 2 (between bus 2 and bus 3)
 
-    #Case Study I: V095-Cap2-RC62, contingency on line 2 (between bus 2 and bus 3)
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_I_single_RC import Case_Study_I_system
-    fig, ax = run_and_plot_contingency(Case_Study_I_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.2, plot=True)
-    name = "Case-Study-I-V095-Cap2-RC62-line-2"
-    fig.set_size_inches(14, 9)
-    fig.savefig(
-    f"Extended_RELRAD/contingency_plots/{name}.pdf",
-    dpi=300,
-    bbox_inches="tight"
-    )
+    ##Case Study I: V095-Cap2-RC62, contingency on line 2 (between bus 2 and bus 3)
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_I_single_RC import Case_Study_I_system
+    #fig, ax = run_and_plot_contingency(Case_Study_I_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.2, plot=True, objective="cost")
+    #name = "Case-Study-I-V095-Cap2-RC62-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
+    #
+#
+    ## CINELDI with multiple RCs case study
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_II_multiple_RC import Case_Study_II_system
+    ##fig, ax = run_and_plot_contingency(Case_Study_II_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.35, plot=True)
+#
+    ## Case Study III: V095-Cap1-RC62-AllBESS-grid
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_III_single_RC_BESS import Case_Study_III_system, BESS_121
+    #fig, ax = run_and_plot_contingency(Case_Study_III_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.1, plot=True, BESS_buses=BESS_121, enable_bess_islanding=False, objective="cost")
+    #name = "Case-Study-III-V095-Cap1-RC62-AllBESS-grid-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
+    #
+    ## Case Study IV: V095-Cap2-AllRC 
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
+    #fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.20, plot=True, enable_bess_islanding=False, objective="cost")
+    #name = "Case-Study-IV-V095-Cap2-AllRC-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
+#
+#
+    ## Case Study IV: V095-Cap2-AllRC-AllBESS-grid
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
+    #fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.20, plot=True, BESS_buses=BESS_all, enable_bess_islanding=False, objective="cost")
+    #name = "Case-Study-IV-V095-Cap2-AllRC-AllBESS-grid-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
     
+    ## Case Study IV: V095-Cap3-AllRC-AllBESS-grid
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
+    #fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.30, plot=True, BESS_buses=BESS_all, enable_bess_islanding=False, objective="cost")
+    #name = "Case-Study-IV-V095-Cap3-AllRC-AllBESS-grid-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
 
-    # CINELDI with multiple RCs case study
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_II_multiple_RC import Case_Study_II_system
-    #fig, ax = run_and_plot_contingency(Case_Study_II_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.35, plot=True)
-
-    # Case Study III: V095-Cap1-RC62-AllBESS-grid
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_III_single_RC_BESS import Case_Study_III_system, BESS_121
-    fig, ax = run_and_plot_contingency(Case_Study_III_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.1, plot=True, BESS_buses=BESS_121, enable_bess_islanding=False)
-    name = "Case-Study-III-V095-Cap1-RC62-AllBESS-grid-line-2"
-    fig.set_size_inches(14, 9)
-    fig.savefig(
-    f"Extended_RELRAD/contingency_plots/{name}.pdf",
-    dpi=300,
-    bbox_inches="tight"
-    )
-    
-    # Case Study IV: V095-Cap2-AllRC 
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
-    fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.20, plot=True, enable_bess_islanding=False)
-    name = "Case-Study-IV-V095-Cap2-AllRC-line-2"
-    fig.set_size_inches(14, 9)
-    fig.savefig(
-    f"Extended_RELRAD/contingency_plots/{name}.pdf",
-    dpi=300,
-    bbox_inches="tight"
-    )
-
-
-    # Case Study IV: V095-Cap2-AllRC-AllBESS-grid
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
-    fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.20, plot=True, BESS_buses=BESS_all, enable_bess_islanding=False)
-    name = "Case-Study-IV-V095-Cap2-AllRC-AllBESS-grid-line-2"
-    fig.set_size_inches(14, 9)
-    fig.savefig(
-    f"Extended_RELRAD/contingency_plots/{name}.pdf",
-    dpi=300,
-    bbox_inches="tight"
-    )
-    
     # Case Study IV: V095-Cap3-AllRC-AllBESS-grid
     from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_IV_multiple_RC_BESS import Case_Study_IV_system, BESS_all
-    fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.30, plot=True, BESS_buses=BESS_all, enable_bess_islanding=False)
-    name = "Case-Study-IV-V095-Cap3-AllRC-AllBESS-grid-line-2"
+    fig, ax = run_and_plot_contingency(Case_Study_IV_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.30, plot=True, BESS_buses=BESS_all, enable_bess_islanding=False, objective="load_shed")
+    name = "Case-Study-IV-V095-Cap3-AllRC-AllBESS-grid-line-2-load-shed-objective"
     fig.set_size_inches(14, 9)
     fig.savefig(
     f"Extended_RELRAD/contingency_plots/{name}.pdf",
@@ -160,35 +173,35 @@ if __name__ == "__main__":
     )
     
 
-    # Case Study V: V095-Cap1-RC62-AllBESS-island
-    from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_V_single_RC_BESS_island import Case_Study_V_system, BESS_all
-    fig, ax = run_and_plot_contingency(Case_Study_V_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.1, plot=True, BESS_buses=BESS_all, enable_bess_islanding=True)
-    name = "Case-Study-V-V095-Cap1-RC62-AllBESS-island-line-2"
-    fig.set_size_inches(14, 9)
-    fig.savefig(
-    f"Extended_RELRAD/contingency_plots/{name}.pdf",
-    dpi=300,
-    bbox_inches="tight"
-    )
+    ## Case Study V: V095-Cap1-RC62-AllBESS-island
+    #from Extended_RELRAD.case_studies.CINELDI_case_studies.Case_Study_V_single_RC_BESS_island import Case_Study_V_system, BESS_all
+    #fig, ax = run_and_plot_contingency(Case_Study_V_system, line_id=contingency_id, Vmin=0.95, cap_limit=0.1, plot=True, BESS_buses=BESS_all, enable_bess_islanding=True, objective="cost")
+    #name = "Case-Study-V-V095-Cap1-RC62-AllBESS-island-line-2"
+    #fig.set_size_inches(14, 9)
+    #fig.savefig(
+    #f"Extended_RELRAD/contingency_plots/{name}.pdf",
+    #dpi=300,
+    #bbox_inches="tight"
+    #)
     
 
     from Extended_RELRAD.case_studies.RBTS_Bus_2_case_studies.Bus_2_Case_A import Bus_2_Case_A_system
-    #fig, ax = run_and_plot_contingency(Bus_2_Case_A_system, line_id=1, Vmin = 0.0, cap_limit=0.2, plot=True)
+    #fig, ax = run_and_plot_contingency(Bus_2_Case_A_system, line_id=1, Vmin = 0.0, cap_limit=0.2, plot=True, objective="load_shed")
 
     from Extended_RELRAD.case_studies.RBTS_Bus_2_case_studies.Bus_2_Case_D import Bus_2_Case_D_system 
-    #fig, ax = run_and_plot_contingency(Bus_2_Case_D_system, line_id=10, Vmin = 0.9, cap_limit=1000, plot=True)
+    #fig, ax = run_and_plot_contingency(Bus_2_Case_D_system, line_id=10, Vmin = 0.9, cap_limit=1000, plot=True, objective="load_shed")
     
     # IEEE 123 Bus test system - just for testing during development, not part of any case study 
     from Extended_RELRAD.case_studies.IEEE_123_Bus_case_studies.IEEE_123_Bus import IEEE_123_Bus_system
-    #fig, ax = run_and_plot_contingency(IEEE_123_Bus_system, line_id=40, Vmin=0.80, cap_limit=3.5, plot=True)
+    #fig, ax = run_and_plot_contingency(IEEE_123_Bus_system, line_id=40, Vmin=0.80, cap_limit=3.5, plot=True, objective="load_shed")
 
     # RBTS Bus 4 case A 
     from Extended_RELRAD.case_studies.RBTS_Bus_4_case_studies.Bus_4_Case_A import Bus_4_Case_A_system
-    #fig, ax = run_and_plot_contingency(Bus_4_Case_A_system, line_id=1, Vmin = None, cap_limit=1000, plot=True)
+    #fig, ax = run_and_plot_contingency(Bus_4_Case_A_system, line_id=1, Vmin = None, cap_limit=1000, plot=True, objective="load_shed")
 
     # RBTS Bus 4 case B 
     from Extended_RELRAD.case_studies.RBTS_Bus_4_case_studies.Bus_4_Case_B import Bus_4_Case_B_system
-    #fig, ax = run_and_plot_contingency(Bus_4_Case_B_system, line_id=1, Vmin = None, cap_limit=1000, plot=True)
+    #fig, ax = run_and_plot_contingency(Bus_4_Case_B_system, line_id=1, Vmin = None, cap_limit=1000, plot=True, objective="load_shed")
 
 
     
