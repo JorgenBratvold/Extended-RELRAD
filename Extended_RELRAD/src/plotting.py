@@ -435,8 +435,7 @@ def plot_case_study_results(
     changed_spacing = 1.0
     unchanged_spacing = 0.35
 
-    # Fraction of available LP spacing used by bars.
-    # Lower value gives more space between neighboring LP groups.
+
     lp_group_width = 0.78
 
     plt.rcParams.update({
@@ -936,15 +935,11 @@ def plot_case_study_results(
         for tick_label, changed in zip(ax.get_xticklabels(), lp_changed):
             if changed:
                 tick_label.set_color("black")
-                #tick_label.set_fontweight("bold")
                 tick_label.set_fontsize(12)
-                #tick_label.set_fontstyle("normal")
             else:
                 tick_label.set_color("#808080")
                 tick_label.set_fontweight("normal")
                 tick_label.set_fontsize(7)
-                #tick_label.set_fontstyle("italic")
-
 
         ax.yaxis.set_major_locator(MaxNLocator(nbins=8))
         ax_cum.yaxis.set_major_locator(MaxNLocator(nbins=8))
@@ -954,8 +949,6 @@ def plot_case_study_results(
 
 
     plt.tight_layout(rect=[0.005, 0.005, 0.995, 0.995])
-    #fig.subplots_adjust(hspace=0.55)
-
     plt.show()
 
     return fig
